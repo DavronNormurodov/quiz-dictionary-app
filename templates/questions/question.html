@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<script src="{% static 'quizzes/quiz.js' %}" defer></script>
+
+<div class="container ">
+
+    <div class="row mt-3">
+        <div class="col-12 text-center">
+            <h1 class="bg-warning p-3" id="warning-text">
+                Started
+            </h1>
+            <p class="text-danger" id="warning-time-text">Allocated time is {{ duration }} minute!</p>
+        </div>
+        <div class="col-6 text-left">
+            <h3>{{title}}</h3>
+        </div>
+        <div class="col-6 text-right" id="timer-box"></div>
+    </div>
+
+    <a href="{% url 'quizzes' %}" class="btn btn-danger">go back</a>
+
+    <form method='post' action="" id="quiz-form" class="mt-3 mb-3">
+        {% csrf_token %}
+        <div id="quiz-box" class="shadow-lg p-3 mb-5 bg-white rounded"></div>
+        <button type="submit" class="btn btn-primary mt-3" id="quiz-form-submit">save</button>
+    </form>
+
+    <div id="score-box"></div>
+    <div id="result-box"></div>
+
+    <!-- <div align="right " id="displaytimer"><b>Timer: 0 seconds</b></div> -->
+
+    <!-- <form method='post' action="{% url 'result' quiz  %}" class="">
+        {% csrf_token %}
+        {% for q in questions%}
+        <div class="form-group">
+          <label for="question">{{q.question}}</label>
+        </div>
+        <div class="form-check">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="{{q.question}}" id="gridRadios1" value="{{q.op1}}">
+                <label class="form-check-label" for="gridRadios1">
+                    {{q.op1}}
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="{{q.question}}" id="gridRadios2" value="{{q.op2}}">
+                <label class="form-check-label" for="gridRadios2">
+                    {{q.op2}}
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="{{q.question}}" id="gridRadios1" value="{{q.op3}}">
+                <label class="form-check-label" for="gridRadios1">
+                    {{q.op3}}
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="{{q.question}}" id="gridRadios2" value="{{q.op4}}">
+                <label class="form-check-label" for="gridRadios2">
+                    {{q.op4}}
+                </label>
+            </div>
+            <br>
+        </div>    
+        {% endfor %}
+        <input id='timer' type='hidden' name="timer" value="">
+        <br>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form> -->
+
+
+    
+
+</div>
+{% endblock %}

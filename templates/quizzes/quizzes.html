@@ -1,0 +1,68 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+{% block scripts %}
+    
+{% endblock scripts %}
+
+
+{% block content %}
+<link rel="stylesheet" href={% static 'quizzes/main.css' %}>
+<script src="{% static 'quizzes/main.js' %}" defer></script>
+
+<!-- <h1>Available quizzes:</h1> -->
+  <div class="modal fade" id="quizStartModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Start?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="modal-body-confirm"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">no</button>
+          <button type="button" id="start-button" class="btn btn-success">yes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row text-center mt-5 mb-5">
+    <div class="col-12">
+      <div class="h1">Quiz List</div>
+    </div>
+  </div>
+  
+  <hr>
+  {% for quiz in quizzes %}
+    <div class="row text-center mt-3">
+      <div class="col-6 mx-auto">
+        <button
+          class="btn btn-info modal-button"
+          data-pk="{{quiz.pk}}"
+          data-quiz="{{quiz.title}}"
+          data-time="{{quiz.duration}}"
+          data-toggle="modal"
+          data-target="#quizStartModal">
+          {{quiz.title}}
+      </button>
+      </div>
+    </div>
+    <hr>
+  {% endfor %}
+
+  
+  <div class="row text-center mt-3">
+    <div class="col-6 mx-auto">
+      <a href="{% url 'index' %}" class="btn btn-danger">
+        back
+      </a>
+    </div>
+  </div>
+
+
+  
+
+{% endblock %}

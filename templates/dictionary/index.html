@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- <script src="{% static 'dictionary/main.js' %}" defer></script> -->
+<link href={% static 'dictionary/styles.css' %} rel="stylesheet" type="text/css" media="all">
+
+
+<div class="row text-center mt-5">
+    <div class="col-12">
+        <h1 class="font-italic ar">Practise makes perfect!</h1>
+    </div>
+</div>
+
+<div class="bg-light navbar navbar-expand-lg navbar-light mt-3 mb-1 justify-content-between rounded-top">
+    <div class="nav-item col-4">
+        <span class="text-dark font-weight-bold">My dictionary</span>
+    </div>
+    <a class="btn btn-outline-danger d-inline-block float-left" data-toggle="modal"
+        data-target="#exitDictModal">Exit</a>
+</div>
+<nav class="navbar navbar-expand-lg navbar-light bg-white mb-1">
+    <div class="col-lg-6- col-md-6 col-sm-12">
+        <a class="btn btn-success modal-button text-light align-baseline d-inline" data-toggle="modal"
+            data-target="#addDictModal">Add new word</a>
+    </div>
+
+    <form id="searchFormBtn" action="{% url 'dictionary:dict-search' %}"
+        class="form-inline my-2 my-lg-0 col-lg-6 col-md-6 col-sm-12 float-right" method="POST">
+        {% csrf_token %}
+        <input type="search" class="form-control mr-sm-2 dict-search" placeholder="search for word" id="searchInputBtn"
+            aria-label="Search" name="word" required>
+        <button type="submit" class="btn btn-outline-success my-2 my-sm-0" id="searchSubmitBtn">search</button>
+    </form>
+</nav>
+
+<div class="card border-light rounded-sm">
+    <div class="card-body ">
+        <table class="table table-hover col-12">
+            <thead class="thead-light">
+                <tr class="d-flex">
+                    <th class="col-3">Word</th>
+                    <th class="col-3">Defination or translation</th>
+                    <th class="col-2">Author</th>
+                    <th class="col-2">Date of creation</th>
+                    <th class="col-1">edit</th>
+                    <th class="col-1">delete</th>
+                </tr>
+            </thead>
+
+            
+            <tbody>
+                {% for dict in dictionaries %}
+                <tr class="d-flex">
+                    <th class="col-3">{{ dict.word }}</th>
+                    <th class="col-3">{{ dict.defination }}</th>
+                    <th class="col-2">{{ dict.user }}</th>
+                    <th class="col-2">{{ dict.created_at }}</th>
+                    <th class="col-1">
+                        <a id="editBtn" href="{% url 'dictionary:dictionary-update' dict.id %}"
+                            class="btn btn-success modal-button text-light align-baseline d-inline">edit</a>
+                    </th>
+                    <th class="col-1">
+                        <a id="deleteBtn" href="{% url 'dictionary:dictionary-delete' dict.id %}"
+                            class="btn btn-danger modal-button text-light align-baseline d-inline">delete</a>
+                    </th>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="addDictModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Adding new words</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{% url 'dictionary:dictionary-list' %}" method="post">
+                <div class="modal-body" id="modal-body-confirm">
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <div class="form-group">
+                        <input type="text" class="form-control form-control-lg" placeholder="{{ field.name }}"
+                            name="{{ field.name }}" value>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Later</button>
+                    <button type="submit" id="start-button" class="btn btn-success">Add</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="exitDictModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to quit?</h5>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
+                <a type="" id="start-button" class="btn btn-danger" href="{% url 'index' %}">Exit</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+<!-- <div class="row ">
+    <div class="col-12 border-light rounded-sm">
+        <div class="d-flex flex-row justify-content-between align-items-center p-3 bg-white">
+            
+            {% if dictionaries.has_previous %}
+                <a class="btn btn-outline-info mb-4" type="button"
+                    href="?page=1">first</a>
+                <a class="btn btn-outline-info mb-4 " type="button"
+                    href="?page={{dictionaries.previous_page_number}}">previous</a>
+            
+            {% endif %}
+
+            {% for num in dictionaries.paginator.page_range %}
+                {% if dictionaries.number == num %}
+                    <a class="btn btn-info mb-4 " type="button" href="?page={{num}}">{{num}}</a>
+                {% elif num > dictionaries.number|add:'-3' and num < dictionaries.number|add:'3' %}
+                    <a class="btn btn-outline-info mb-4" type="button" href="?page={{num}}">{{num}}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if dictionaries.has_next %}
+                <a class="btn btn-outline-info mb-4" type="button"
+                    href="?page={{ dictionaries.next_page_number }}">
+                    Next
+                </a>
+                <a class="btn btn-outline-info mb-4 " type="button"
+                    href="?page={{dictionaries.paginator.num_pages}}">Last</a>
+            {% endif %}
+        </div>
+    </div>
+</div> -->

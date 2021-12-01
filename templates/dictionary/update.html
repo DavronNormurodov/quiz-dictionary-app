@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="row text-center mt-5">
+    <div class="col-6 mx-auto">
+        <form action="{% url 'dictionary:dictionary-update' id %}" method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group text-center">
+                    <input type="text" class="form-control form-control-lg" name="{{ field.name }}"
+                        value="{{ field.value }}">
+                </div>
+            {% endfor %}
+            <a href="{% url 'dictionary:dictionary-list' %}" class="btn btn-danger">Back</a>
+            <button type="submit" id="start-button" class="btn btn-success">Update</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

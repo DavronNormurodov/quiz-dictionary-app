@@ -1,0 +1,31 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% block content %}
+    <div class="row text-center mt-5">
+        <div class="col-12">
+            <h1 class="font-italic">Practise makes perfect!</h1>
+        </div>
+    </div>
+    
+    <div class="row align-children mt-5">
+        <div class="col-md-7 col-sm-6 text-center mb-xs-24">
+            <img width="660" height="300" class="img-responsive img-fluid" src="../static/homepageImg.svg" alt="">
+        </div>
+        <div class="col-md-4 col-md-offset-1 col-sm-5 col-sm-offset-1 d-flex align-items-center">
+            <div class="align-middle img-fluid">
+                <h3>Quiz project</h3>
+                <div class="mb32">
+                    <p>Flexible and multidisciplinary quiz app to keep you mindful about your knowledge as well as the
+                        opportunity to create your own dictionary! 
+                         </p>
+                </div>
+                <a href="{% url 'quizzes' %}" class="btn btn-lg btn-secondary ">Test yourself</a>
+                <a href="{% url 'dictionary:dictionary-list' %}" class="btn btn-lg btn-info">My dictionary</a>
+            </div>
+        </div>
+    </div>
+
+
+
+
+{% endblock %}
