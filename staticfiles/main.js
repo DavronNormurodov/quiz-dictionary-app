@@ -1,0 +1,1 @@
+console.log('static is working haha')
