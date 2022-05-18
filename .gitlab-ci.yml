@@ -19,7 +19,7 @@ build:
     - "source venv/bin/activate"
     - "pip install -r requirements.txt"
   tags:
-    - back_quiz_dict_app
+    - quiz_dict
   only:
     - build
 
