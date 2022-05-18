@@ -4,7 +4,7 @@ before_script:
   - "whoami"
   - "echo \"Current location:\" $PWD"
 #  - "python3.8 --version"
-#  - "pip3 --version"
+  - "pip3 --version"
 
 
 build:
