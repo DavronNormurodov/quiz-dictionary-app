@@ -37,4 +37,4 @@ deploy:
   only:
     - master
   tags:
-   - quiz_dict
+    - quiz_dict
