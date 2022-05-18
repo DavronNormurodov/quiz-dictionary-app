@@ -3,7 +3,7 @@ before_script:
   - "export BUILD_DIR=~/var/www/quiz-dictionary-app/tmp/${CI_PIPELINE_ID}"
   - "whoami"
   - "echo \"Current location:\" $PWD"
-  - "python3 --version"
+  - "python3.8.10 --version"
   - "pip3 --version"
 
 
