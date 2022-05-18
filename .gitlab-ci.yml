@@ -3,8 +3,8 @@ before_script:
   - "export BUILD_DIR=~/var/www/quiz-dictionary-app/tmp/${CI_PIPELINE_ID}"
   - "whoami"
   - "echo \"Current location:\" $PWD"
-#  - "python3.8 --version"
-#  - "pip3 --version"
+  - "python3.8 --version"
+  - "pip3 --version"
 
 
 build:
@@ -18,8 +18,8 @@ build:
     - "python3 -m venv venv"
     - "source venv/bin/activate"
     - "pip3 install -r requirements.txt"
-#  tags:
-#    - quiz_dict
+  tags:
+    - quiz_dict
   only:
     - build
 
@@ -36,5 +36,5 @@ deploy:
     - "systemctl restart gunicorn.service"
   only:
     - master
-#  tags:
-#    - quiz_dict
+  tags:
+    - quiz_dict
