@@ -18,8 +18,8 @@ build:
     - "python -m venv venv"
     - "source venv/bin/activate"
     - "pip install -r requirements.txt"
-#  tags:
-#    - quiz_dict
+  tags:
+    - quiz_dict
   only:
     - build
 
@@ -36,5 +36,5 @@ deploy:
     - "systemctl restart gunicorn.service"
   only:
     - master
-#  tags:
-#    - quiz_dict
+  tags:
+   - quiz_dict
