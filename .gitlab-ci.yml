@@ -30,7 +30,7 @@ deploy:
     - "echo $CI_PROJECT_DIR"
     - "cp -r $CI_PROJECT_DIR/* ${PROJECT_DIR}/"
     - "cp -r $CI_PROJECT_DIR/.git ${PROJECT_DIR}/"
-    - "pip install -r requirements.txt"
+    - "pip3 install -r requirements.txt"
     - "cd $PROJECT_DIR"
     - "systemctl restart gunicorn.service"
   only:
