@@ -1,39 +1,55 @@
+stages:
+  - "test"
+  - "build"
+  - "deploy"
+
 before_script:
-  - "export PROJECT_DIR=/var/www/quiz-dictionary-app/"
+  - "export PROJECT_DIR=/var/www/quiz-dictionary-app"
   - "export BUILD_DIR=~/var/www/quiz-dictionary-app/tmp/${CI_PIPELINE_ID}"
   - "whoami"
   - "echo \"Current location:\" $PWD"
-  - "python3.8 --version"
-  - "pip3 --version"
+  - "python3 --version"
+  - "pip --version"
+
+test:
+  stage: test
+  script:
+    - echo "test stage is working now"
+  tags:
+    - quiz
 
 build:
   stage: build
   script:
+    - echo "build stage is working"
     - "rm -rf ${BUILD_DIR}"
     - "mkdir -p ${BUILD_DIR}"
+    - echo "${BUILD_DIR} \n dirictory"
     - "cp -r `pwd`/* ${BUILD_DIR}/"
     - "cp -r `pwd`/.git ${BUILD_DIR}/"
     - "cd $BUILD_DIR"
-    - "python3 -m venv venv"
-    - "source venv/bin/activate"
-    - "pip3 install -r requirements.txt"
+    - "python3 -m venv quiz_venv"
+    - "source quiz_venv/bin/activate"
+    - "pip install -r requirements.txt"
   tags:
-    - quiz_dict
-  only:
-    - build
+    - quiz
+
 
 deploy:
   stage: deploy
   script:
+    - echo "deploy stage is working"
     - "rm -rf ${PROJECT_DIR}"
     - "mkdir -p ${PROJECT_DIR}"
     - "echo $CI_PROJECT_DIR"
     - "cp -r $CI_PROJECT_DIR/* ${PROJECT_DIR}/"
     - "cp -r $CI_PROJECT_DIR/.git ${PROJECT_DIR}/"
-    - "pip3 install -r requirements.txt"
+    - "pip install -r requirements.txt"
     - "cd $PROJECT_DIR"
-    - "systemctl restart gunicorn.service"
-  only:
-    - master
+    - "python3 -m venv quiz_venv"
+    - "source quiz_venv/bin/activate"
+    - "ls"
+    - gunicorn --bind 0.0.0.0:8000 myquiz.wsgi
+    # - "systemctl restart gunicorn.service"
   tags:
-    - quiz_dict
+    - quiz
